@@ -1,7 +1,7 @@
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -31,7 +31,6 @@ class MyHomePage extends StatelessWidget {
         title: Text("Despesas Pessoais"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -44,18 +43,41 @@ class MyHomePage extends StatelessWidget {
           Column(
             children: [
               ..._transactions.map((transacao) {
-                return Row(
-                  children: [
-                    Container(
-                      child: Text(transacao.value!.toString()),
-                    ),
-                    Column(
-                      children: [
-                        Text(transacao.title!),
-                        Text(transacao.date.toString())
-                      ],
-                    )
-                  ],
+                return Card(
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.purple, width: 2)),
+                        child: Text(
+                          "R\$ " + transacao.value!.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.purple),
+                        ),
+                        padding: EdgeInsets.all(10),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transacao.title!,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Text(
+                            DateFormat("d MMM y").format(transacao.date!),
+                            style: TextStyle(color: Colors.grey),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 );
               }).toList(),
             ],
