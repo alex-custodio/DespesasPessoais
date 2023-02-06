@@ -8,12 +8,16 @@ import 'dart:math';
 main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
-  const ExpensesApp({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final ThemeData tema = ThemeData();
+ 
     return MaterialApp(
       home: MyHomePage(),
+      theme: tema.copyWith(
+        colorScheme: tema.colorScheme.copyWith(
+          primary: Colors.purple,
+          secondary: Colors.amber,)),
       debugShowCheckedModeBanner: false,
     );
   }
