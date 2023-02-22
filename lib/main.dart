@@ -11,13 +11,25 @@ class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData tema = ThemeData();
- 
+
     return MaterialApp(
       home: MyHomePage(),
       theme: tema.copyWith(
-        colorScheme: tema.colorScheme.copyWith(
-          primary: Colors.purple,
-          secondary: Colors.amber,)),
+          textTheme: tema.textTheme.copyWith(
+              headline6: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold)),
+          appBarTheme: AppBarTheme(
+              titleTextStyle: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+          colorScheme: tema.colorScheme.copyWith(
+            primary: Colors.purple,
+            secondary: Colors.amber,
+          )),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -29,15 +41,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _transactions = [
-    Transaction(
-        id: "t1",
-        title: "Novo Tênis de Corrida",
-        value: 310.76,
-        date: DateTime.now()),
-    Transaction(
-        id: "t2", title: "Conta de Luz", value: 300, date: DateTime.now())
-  ];
+  List<Transaction> _transactions = [];
 
   void addTransacao(String title, String value) {
     setState(() {
@@ -72,24 +76,24 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text("Gráfico"),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    child: Card(
+                      color: Colors.blue,
+                      child: Text("Gráfico"),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      TransactionList(
+                        transactions: _transactions,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            Column(
-              children: [
-                TransactionList(
-                  transactions: _transactions,
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => onTransactionFormCalled(context),
