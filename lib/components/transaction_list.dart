@@ -11,7 +11,9 @@ class TransactionList extends StatelessWidget {
       height: 300,
       child: transactions!.isEmpty
           ? Column(children: [
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Text("Nenhuma transação adicionada",
                   style: Theme.of(context).textTheme.headline6),
               SizedBox(height: 30),
@@ -26,42 +28,17 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemCount: transactions!.length,
               itemBuilder: ((context, index) {
+                var tr = transactions![index];
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: 2)),
-                        child: Text(
-                          "R\$ " + transactions![index].value!.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Theme.of(context).colorScheme.primary),
-                        ),
-                        padding: EdgeInsets.all(10),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transactions![index].title!,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          Text(
-                            DateFormat("d MMM y")
-                                .format(transactions![index].date!),
-                            style: TextStyle(color: Colors.grey),
-                          )
-                        ],
-                      ),
-                    ],
+                  elevation: 6,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Padding(padding: EdgeInsets.all(6), child: FittedBox(child: Text("R\$${tr.value}", style: TextStyle(color: Colors.white)))),
+                      backgroundColor: Colors.purple,
+                    ),
+                    title: Text("${tr.title}", style: Theme.of(context).textTheme.headline6,),
+                    subtitle: Text(DateFormat("d MMM y").format(tr.date!)),
                   ),
                 );
               }),

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 
+import 'components/chart.dart';
+
 main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
@@ -41,7 +43,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Transaction> _transactions = [];
+  List<Transaction> _transactions = [
+    Transaction(
+        id: "1",
+        title: "Whey Protein",
+        value: 100,
+        date: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(
+        id: "3",
+        title: "Whey Protein",
+        value: 100,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        id: "5",
+        title: "Creatina fake",
+        value: 13,
+        date: DateTime.now())
+  ];
+  List<Transaction> get _recentTransaction {
+    return _transactions.where((element) {
+      return element.date!.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void addTransacao(String title, String value) {
     setState(() {
@@ -76,24 +99,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    child: Card(
-                      color: Colors.blue,
-                      child: Text("Gráfico"),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      TransactionList(
-                        transactions: _transactions,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Chart(recentTransaction: _recentTransaction),
+            Column(
+              children: [
+                TransactionList(
+                  transactions: _transactions,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => onTransactionFormCalled(context),
