@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   void Function(String, String) onSubmit;
@@ -10,7 +11,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   var titleController = TextEditingController();
-
+  DateTime? selectedDate;
   var valueController = TextEditingController();
 
   onSubmitForm() {
@@ -20,6 +21,19 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
     widget.onSubmit(title, value.toString());
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2023),
+            lastDate: DateTime.now())
+        .then((value) {
+      setState(() {
+        selectedDate = value;
+      });
+    });
   }
 
   @override
@@ -43,15 +57,30 @@ class _TransactionFormState extends State<TransactionForm> {
               onSubmitted: (_) => onSubmitForm(),
               controller: valueController,
             ),
+            Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Text(selectedDate == null ? "Nenhuma data selecionada" :  "${DateFormat("d/MM/y").format(selectedDate!)}"),
+                    TextButton(
+                      child: Text(
+                        'Selecionar Data',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: _showDatePicker,
+                    )
+                  ],
+                )),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                    onPressed: onSubmitForm,
-                    child: Text(
-                      "Nova transação",
-                      style: TextStyle(color: Colors.purple),
-                    )),
+                ElevatedButton(
+                  onPressed: onSubmitForm,
+                  child: Text("Nova transação"),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Colors.white),
+                ),
               ],
             )
           ],
