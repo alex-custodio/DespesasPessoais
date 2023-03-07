@@ -55,10 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         value: 100,
         date: DateTime.now().subtract(Duration(days: 3))),
     Transaction(
-        id: "5",
-        title: "Creatina fake",
-        value: 13,
-        date: DateTime.now())
+        id: "5", title: "Creatina fake", value: 13, date: DateTime.now())
   ];
   List<Transaction> get _recentTransaction {
     return _transactions.where((element) {
@@ -66,15 +63,21 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void addTransacao(String title, String value) {
+  void addTransacao(String title, String value, DateTime date) {
     setState(() {
       _transactions.add(Transaction(
           id: Random().nextDouble().toString(),
           title: title,
           value: double.tryParse(value) ?? 0,
-          date: DateTime.now()));
+          date: date));
     });
     Navigator.of(context).pop();
+  }
+
+  void removeTransacao(String id) {
+    setState(() {
+      return _transactions.removeWhere((element) => element.id == id);
+    });
   }
 
   onTransactionFormCalled(BuildContext context) {
@@ -105,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(
               children: [
                 TransactionList(
-                  transactions: _transactions,
+                  transactions: _transactions, removeTransacao: removeTransacao
                 ),
               ],
             ),
