@@ -95,12 +95,12 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-                height: availableheight * 0.3,
+                height: availableheight * 0.35,
                 child: Chart(recentTransaction: _recentTransaction)),
             Column(
               children: [
                 Container(
-                  height: availableheight * 0.7,
+                  height: availableheight * 0.65,
                   child: TransactionList(
                       transactions: _transactions,
                       removeTransacao: removeTransacao),
