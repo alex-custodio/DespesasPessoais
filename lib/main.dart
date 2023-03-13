@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-        bool isLandscape =
+    bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
@@ -91,12 +91,16 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => onTransactionFormCalled(context),
             icon: Icon(Icons.add)),
         if (isLandscape)
-        IconButton(onPressed: (){
-          setState(() {
-            _showChart = !_showChart;
-          });
-        }, icon: Icon(_showChart ? Icons.list : Icons.show_chart))],
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _showChart = !_showChart;
+                });
+              },
+              icon: Icon(_showChart ? Icons.list : Icons.show_chart))
+      ],
     );
+    final mediaQuery = MediaQuery.of(context);
     final availableheight = MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
@@ -108,19 +112,20 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (_showChart || !isLandscape)
-                 Container(
-                    height: availableheight * (isLandscape ? 0.7: 0.35),
-                    child: Chart(recentTransaction: _recentTransaction)),
-            if (!_showChart || !isLandscape) Column(
-                    children: [
-                      Container(
-                        height: availableheight * 0.65,
-                        child: TransactionList(
-                            transactions: _transactions,
-                            removeTransacao: removeTransacao),
-                      ),
-                    ],
+              Container(
+                  height: availableheight * (isLandscape ? 0.7 : 0.35),
+                  child: Chart(recentTransaction: _recentTransaction)),
+            if (!_showChart || !isLandscape)
+              Column(
+                children: [
+                  Container(
+                    height: availableheight * (isLandscape ? 1 : 0.65),
+                    child: TransactionList(
+                        transactions: _transactions,
+                        removeTransacao: removeTransacao),
                   ),
+                ],
+              ),
           ],
         ),
       ),
