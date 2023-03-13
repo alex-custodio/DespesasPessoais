@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text("Despesas Pessoais"),
+      title: Text("Despesas Pessoais", style: TextStyle(fontSize: 20 * MediaQuery.of(context).textScaleFactor),),
       actions: [
         IconButton(
             onPressed: () => onTransactionFormCalled(context),
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
     final availableheight =
-        MediaQuery.of(context).size.height - appBar.preferredSize.height;
+        MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
