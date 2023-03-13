@@ -9,21 +9,27 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions!.isEmpty
-        ? Column(children: [
-            SizedBox(
-              height: 30,
-            ),
-            Text("Nenhuma transação adicionada",
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-            SizedBox(height: 30),
-            Container(
-              child: Image.asset(
-                'assets/images/waiting.png',
-                fit: BoxFit.cover,
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(children: [
+              SizedBox(
+                height: constraints.maxHeight * 0.05,
               ),
-              height: 200,
-            )
-          ])
+              Container(
+                height: constraints.maxHeight * 0.3,
+                child: Text("Nenhuma transação adicionada",
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold)),
+              ),
+              SizedBox(height: constraints.maxHeight * 0.05),
+              Container(
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  fit: BoxFit.cover,
+                ),
+                height: constraints.maxHeight * 0.6,
+              )
+            ]);
+          })
         : ListView.builder(
             itemCount: transactions!.length,
             itemBuilder: ((context, index) {
@@ -42,7 +48,8 @@ class TransactionList extends StatelessWidget {
                   ),
                   title: Text(
                     "${tr.title}",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(DateFormat("d MMM y").format(tr.date!)),
                   trailing: IconButton(

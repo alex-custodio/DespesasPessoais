@@ -43,6 +43,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
   List<Transaction> _transactions = [];
   List<Transaction> get _recentTransaction {
     return _transactions.where((element) {
@@ -79,24 +80,42 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text("Despesas Pessoais", style: TextStyle(fontSize: 20 * MediaQuery.of(context).textScaleFactor),),
+      title: Text(
+        "Despesas Pessoais",
+        style: TextStyle(fontSize: 20 * MediaQuery.of(context).textScaleFactor),
+      ),
       actions: [
         IconButton(
             onPressed: () => onTransactionFormCalled(context),
             icon: Icon(Icons.add))
       ],
     );
-    final availableheight =
-        MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
+    final availableheight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Mostrar o gráfico"),
+                Switch(
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    })
+              ],
+            ),
+            _showChart ? 
             Container(
                 height: availableheight * 0.35,
-                child: Chart(recentTransaction: _recentTransaction)),
+                child: Chart(recentTransaction: _recentTransaction)) :
             Column(
               children: [
                 Container(
